@@ -18,6 +18,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ExchangeRates rates = null;
+
     ExchangeRatesClient client = ServiceGenerator.createService(ExchangeRatesClient.class);
 
     Call<ExchangeRatesResponse> call = client.exchangeRatesForCountry("BGN");
@@ -27,11 +29,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ExchangeRatesResponse> call, Response<ExchangeRatesResponse> response) {
 
-                if (response.body().getExchangeRates() != null) {
+                if (response.body().getRates() != null) {
 
-                    Map<String,Double> rates = response.body().getExchangeRates();
+                    rates.setExchangeRates(response.body().getRates());
 
-                    for(Map.Entry<String,Double> rate : rates.entrySet()){
+                    for(Map.Entry<String,Double> rate : rates.getExchangeRates().entrySet()){
                         Log.d("Key",rate.getKey());
                         Log.d("Value", rate.getValue().toString());
                     }

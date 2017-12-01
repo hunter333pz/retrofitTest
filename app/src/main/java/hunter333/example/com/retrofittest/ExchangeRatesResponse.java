@@ -9,12 +9,12 @@ import java.util.Map;
 public class ExchangeRatesResponse {
     private String currency;
     private String date;
-    Map<String, Double> exchangeRates;
+    Map<String, Double> rates;
 
     public ExchangeRatesResponse(String currency, String date, Map<String, Double> exchangeRates) {
         this.currency = currency;
         this.date = date;
-        this.exchangeRates = exchangeRates;
+        this.rates = exchangeRates;
     }
 
     public String getCurrency() {
@@ -33,11 +33,11 @@ public class ExchangeRatesResponse {
         this.date = date;
     }
 
-    public Map<String, Double> getExchangeRates() {
-        return exchangeRates;
+    public Map<String, Double> getRates() {
+        return rates;
     }
 
-    public void setExchangeRates(Map<String, Double> exchangeRates) {
-        this.exchangeRates = exchangeRates;
+    public void setRates(Map<String, Double> rates) {
+        this.rates = rates;
     }
 }

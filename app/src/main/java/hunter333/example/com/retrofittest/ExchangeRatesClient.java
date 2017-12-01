@@ -14,6 +14,6 @@ public interface ExchangeRatesClient {
 
     @GET("/latest")
     Call<ExchangeRatesResponse> exchangeRatesForCountry(
-            @Query("base") String base
+        @Query("base") String base
     );
 }
