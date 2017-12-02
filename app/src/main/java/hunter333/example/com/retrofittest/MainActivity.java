@@ -25,6 +25,11 @@ public class MainActivity extends AppCompatActivity {
     Call<ExchangeRatesResponse> call = client.exchangeRatesForCountry("BGN");
 
     public void func(View view) {
+        return;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         call.enqueue(new Callback<ExchangeRatesResponse>() {
             @Override
             public void onResponse(Call<ExchangeRatesResponse> call, Response<ExchangeRatesResponse> response) {
@@ -33,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
                     rates.setExchangeRates(response.body().getRates());
 
-                    for(Map.Entry<String,Double> rate : rates.getExchangeRates().entrySet()){
-                        Log.d("Key",rate.getKey());
+                    for (Map.Entry<String, Double> rate : rates.getExchangeRates().entrySet()) {
+                        Log.d("Key", rate.getKey());
                         Log.d("Value", rate.getValue().toString());
                     }
                 }
@@ -45,11 +50,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("Request", "error");
             }
         });
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
     }
 }
