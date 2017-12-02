@@ -18,18 +18,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ExchangeRates rates = null;
+    private ExchangeRates rates = new ExchangeRates();
 
     ExchangeRatesClient client = ServiceGenerator.createService(ExchangeRatesClient.class);
 
     Call<ExchangeRatesResponse> call = client.exchangeRatesForCountry("BGN");
 
-    public void func(View view) {
-        return;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getExchangeRatesCall();
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    private void getExchangeRatesCall() {
         call.enqueue(new Callback<ExchangeRatesResponse>() {
             @Override
             public void onResponse(Call<ExchangeRatesResponse> call, Response<ExchangeRatesResponse> response) {
@@ -50,8 +52,5 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("Request", "error");
             }
         });
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
     }
 }
