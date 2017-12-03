@@ -25,17 +25,20 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-
+    //Add retrofit
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-
-
+    // Add interceptor for logging requests and responses from retrofit
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
-   // compile 'com.squareup.okhttp3:okhttp:3.4.1'
-
+    // Add okhttp library
     compile 'com.squareup.okhttp3:okhttp:3.9.1'
     compile 'com.squareup.okio:okio:1.13.0'
     compile 'com.google.code.gson:gson:2.8.0'
+
+    // Add room persistence library
+    compile 'android.arch.persistence.room:runtime:1.0.0'
+    annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
 }
+
 
 

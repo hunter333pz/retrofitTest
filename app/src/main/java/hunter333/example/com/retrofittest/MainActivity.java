@@ -2,13 +2,19 @@ package hunter333.example.com.retrofittest;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 import java.util.Map;
 
+import hunter333.example.com.retrofittest.databaseHolders.AppDatabase;
+import hunter333.example.com.retrofittest.entities.ExchangeRate;
+import hunter333.example.com.retrofittest.utils.DatabaseInitializer;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,18 +37,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    @Override
+    protected void onDestroy() {
+        AppDatabase.destroyInstance();
+        super.onDestroy();
+    }
+
     private void getExchangeRatesCall() {
         call.enqueue(new Callback<ExchangeRatesResponse>() {
             @Override
             public void onResponse(Call<ExchangeRatesResponse> call, Response<ExchangeRatesResponse> response) {
 
                 if (response.body().getRates() != null) {
-
                     rates.setExchangeRates(response.body().getRates());
-
-                    for (Map.Entry<String, Double> rate : rates.getExchangeRates().entrySet()) {
-                        Log.d("Key", rate.getKey());
-                        Log.d("Value", rate.getValue().toString());
+                    Log.d("Request", "success");
+                    for(Map.Entry<String, Double> rate : rates.getExchangeRates().entrySet()){
+                        ExchangeRate exchangeRate = new ExchangeRate(rate.getKey(), rate.getValue());
+                        DatabaseInitializer.populateAsync(AppDatabase.getAppDatabase(getApplicationContext()), exchangeRate);
                     }
                 }
             }
