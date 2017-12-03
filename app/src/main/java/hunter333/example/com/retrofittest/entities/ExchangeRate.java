@@ -48,4 +48,13 @@ public class ExchangeRate {
     public void setExchangeRateCoefficient(Double exchangeRateCoefficient) {
         this.exchangeRateCoefficient = exchangeRateCoefficient;
     }
+
+    @Override
+    public String toString() {
+        return "ExchangeRate{" +
+                "id=" + id +
+                ", countryCode='" + countryCode + '\'' +
+                ", exchangeRateCoefficient=" + exchangeRateCoefficient +
+                '}';
+    }
 }

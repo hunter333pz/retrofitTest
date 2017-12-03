@@ -25,6 +25,14 @@ public class DatabaseInitializer {
         task.execute();
     }
 
+    public static ExchangeRate getRateByCode(final AppDatabase db, String code) {
+        return db.exchangeRateDao().findRateByCountryCode(code);
+    }
+
+    public static void updateExchangeRate(final AppDatabase db, ExchangeRate exchangeRate) {
+        db.exchangeRateDao().updateExchangeRate(exchangeRate);
+    }
+
     public static void populateSync(@NonNull final AppDatabase db) {
 
     }
