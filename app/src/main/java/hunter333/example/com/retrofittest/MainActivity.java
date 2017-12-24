@@ -25,6 +25,22 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
+    private TextView inputTV;
+    private TextView outputTV;
+
+    public void Calculate(View view) {
+        double inputSum = Double.parseDouble(inputTV.getText().toString());
+        double rate;
+        if (rates.getExchangeRates().containsKey("HUF")) {
+            rate = rates.getExchangeRates().get("HUF");
+        } else {
+            rate = 0;
+        }
+        Log.d("rate: ", String.valueOf(rate));
+        double result = inputSum / rate;
+        outputTV.setText(String.valueOf(result));
+    }
+
     private ExchangeRates rates = new ExchangeRates();
 
     ExchangeRatesClient client = ServiceGenerator.createService(ExchangeRatesClient.class);
@@ -36,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         getExchangeRatesCall();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        inputTV = (TextView) findViewById(R.id.input_text_view);
+        outputTV = (TextView) findViewById(R.id.output_text_view);
     }
 
     @Override
