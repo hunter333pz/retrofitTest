@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,8 +26,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView inputTV;
-    private TextView outputTV;
+    private EditText inputTV;
+    private EditText outputTV;
 
     public void Calculate(View view) {
         double inputSum;
@@ -48,6 +49,11 @@ public class MainActivity extends AppCompatActivity {
         outputTV.setText(result);
     }
 
+    public void clearInput(View view){
+        inputTV.getText().clear();
+        outputTV.getText().clear();
+    }
+
     public void closeApp(View view) {
         finish();
         System.exit(0);
@@ -64,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
         getExchangeRatesCall();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        inputTV = (TextView) findViewById(R.id.input_text_view);
-        outputTV = (TextView) findViewById(R.id.output_text_view);
+        inputTV = (EditText) findViewById(R.id.input_text_view);
+        outputTV = (EditText) findViewById(R.id.output_text_view);
     }
 
     @Override
