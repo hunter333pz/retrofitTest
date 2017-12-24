@@ -29,7 +29,13 @@ public class MainActivity extends AppCompatActivity {
     private TextView outputTV;
 
     public void Calculate(View view) {
-        double inputSum = Double.parseDouble(inputTV.getText().toString());
+        double inputSum;
+        try {
+            inputSum = Double.parseDouble(inputTV.getText().toString());
+        } catch (Exception e){
+            Log.e("Input is empty", inputTV.getText().toString());
+            inputSum=0;
+        }
         double rate;
         String result;
         if (rates.getExchangeRates().containsKey("HUF")) {
