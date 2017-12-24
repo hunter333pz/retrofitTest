@@ -31,14 +31,20 @@ public class MainActivity extends AppCompatActivity {
     public void Calculate(View view) {
         double inputSum = Double.parseDouble(inputTV.getText().toString());
         double rate;
+        String result;
         if (rates.getExchangeRates().containsKey("HUF")) {
             rate = rates.getExchangeRates().get("HUF");
+            result = String.valueOf(inputSum / rate);
         } else {
-            rate = 0;
+            result = "No exchange rate data!";
         }
-        Log.d("rate: ", String.valueOf(rate));
-        double result = inputSum / rate;
-        outputTV.setText(String.valueOf(result));
+
+        outputTV.setText(result);
+    }
+
+    public void closeApp(View view) {
+        finish();
+        System.exit(0);
     }
 
     private ExchangeRates rates = new ExchangeRates();
