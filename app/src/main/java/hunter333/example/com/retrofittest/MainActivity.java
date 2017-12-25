@@ -33,13 +33,13 @@ public class MainActivity extends AppCompatActivity {
         double inputSum;
         try {
             inputSum = Double.parseDouble(inputTV.getText().toString());
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.e("Input is empty", inputTV.getText().toString());
-            inputSum=0;
+            inputSum = 0;
         }
         double rate;
         String result;
-        if (rates.getExchangeRates().containsKey("HUF")) {
+        if (rates.getExchangeRates() != null && rates.getExchangeRates().containsKey("HUF")) {
             rate = rates.getExchangeRates().get("HUF");
             result = String.valueOf(inputSum / rate);
         } else {
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         outputTV.setText(result);
     }
 
-    public void clearInput(View view){
+    public void clearInput(View view) {
         inputTV.getText().clear();
         outputTV.getText().clear();
     }
