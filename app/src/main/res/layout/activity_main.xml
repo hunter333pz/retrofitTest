@@ -7,8 +7,4 @@
     tools:context="hunter333.example.com.retrofittest.MainActivity"
     android:id="@+id/main_activity_layout"
     android:orientation="vertical">
-
-
-
-
 </LinearLayout>

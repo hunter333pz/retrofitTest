@@ -1,0 +1,57 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "303c7b657efe52b3b421e8946e57a734",
+    "entities": [
+      {
+        "tableName": "exchange_rate",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `from_currency` TEXT, `to_currency` TEXT, `last_update` TEXT, `exchange_rate_coefficient` REAL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fromCurrency",
+            "columnName": "from_currency",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "toCurrency",
+            "columnName": "to_currency",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastUpdate",
+            "columnName": "last_update",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "exchangeRateCoefficient",
+            "columnName": "exchange_rate_coefficient",
+            "affinity": "REAL",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"303c7b657efe52b3b421e8946e57a734\")"
+    ]
+  }
+}

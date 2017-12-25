@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -53,13 +54,13 @@ public class MainActivity extends AppCompatActivity {
                     rates.setExchangeRates(response.body().getRates());
                     Log.d("Request", "success");
                     for (Map.Entry<String, Double> rate : rates.getExchangeRates().entrySet()) {
-                        ExchangeRate exchangeRate = DatabaseInitializer.getRateByCode(AppDatabase.getAppDatabase(getApplicationContext()), rate.getKey());
+                        ExchangeRate exchangeRate = DatabaseInitializer.getRateByToCurrency(AppDatabase.getAppDatabase(getApplicationContext()), rate.getKey());
                         if (exchangeRate != null) {
                             exchangeRate.setExchangeRateCoefficient(rate.getValue());
                             DatabaseInitializer.updateExchangeRate(AppDatabase.getAppDatabase(getApplicationContext()), exchangeRate);
                             Log.d("RATE_UPDATE", exchangeRate.toString());
                         } else {
-                            exchangeRate = new ExchangeRate(rate.getKey(), rate.getValue());
+                            exchangeRate = new ExchangeRate("BGN", rate.getKey(),new Date().toString(),rate.getValue());
                             DatabaseInitializer.populateAsync(AppDatabase.getAppDatabase(getApplicationContext()), exchangeRate);
                         }
                     }

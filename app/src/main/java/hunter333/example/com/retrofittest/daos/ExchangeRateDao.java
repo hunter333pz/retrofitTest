@@ -18,8 +18,8 @@ public interface ExchangeRateDao {
     @Query("SELECT * FROM exchange_rate")
     List<ExchangeRate> getAll();
 
-    @Query("SELECT * FROM exchange_rate where country_code==:countryCode")
-    ExchangeRate findRateByCountryCode(String countryCode);
+    @Query("SELECT * FROM exchange_rate where to_currency==:toCurrency")
+    ExchangeRate findRateByToCurrency(String toCurrency);
 
     @Query("SELECT COUNT(*) from exchange_rate")
     int countCountries();
