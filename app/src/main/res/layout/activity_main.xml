@@ -2,9 +2,69 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_activity_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="hunter333.example.com.retrofittest.MainActivity"
-    android:id="@+id/main_activity_layout"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="hunter333.example.com.retrofittest.MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Input sum in HUF"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/input_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:onClick="Calculate"
+            android:text="Calculate" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:text="Clear"
+            android:onClick="clearInput"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Result sum in BGN"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/output_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:editable="false"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="50dp"
+        android:background="@android:color/holo_red_light"
+        android:onClick="closeApp"
+        android:text="EXIT" />
+
 </LinearLayout>

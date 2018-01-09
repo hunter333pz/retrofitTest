@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,39 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
+    private EditText inputTV;
+    private EditText outputTV;
+
+    public void Calculate(View view) {
+        double inputSum;
+        try {
+            inputSum = Double.parseDouble(inputTV.getText().toString());
+        } catch (Exception e) {
+            Log.e("Input is empty", inputTV.getText().toString());
+            inputSum = 0;
+        }
+        double rate;
+        String result;
+        if (rates.getExchangeRates() != null && rates.getExchangeRates().containsKey("HUF")) {
+            rate = rates.getExchangeRates().get("HUF");
+            result = String.valueOf(inputSum / rate);
+        } else {
+            result = "No exchange rate data!";
+        }
+
+        outputTV.setText(result);
+    }
+
+    public void clearInput(View view) {
+        inputTV.getText().clear();
+        outputTV.getText().clear();
+    }
+
+    public void closeApp(View view) {
+        finish();
+        System.exit(0);
+    }
+
     private ExchangeRates rates = new ExchangeRates();
 
     ExchangeRatesClient client = ServiceGenerator.createService(ExchangeRatesClient.class);
@@ -37,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
         getExchangeRatesCall();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        inputTV = (EditText) findViewById(R.id.input_text_view);
+        outputTV = (EditText) findViewById(R.id.output_text_view);
     }
 
     @Override
