@@ -5,7 +5,7 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import hunter333.example.com.retrofittest.daos.ExchangeRateDao;
+import hunter333.example.com.retrofittest.dao.ExchangeRateDao;
 import hunter333.example.com.retrofittest.entities.ExchangeRate;
 
 /**

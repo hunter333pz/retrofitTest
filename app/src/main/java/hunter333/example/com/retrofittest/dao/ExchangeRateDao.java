@@ -1,4 +1,4 @@
-package hunter333.example.com.retrofittest.daos;
+package hunter333.example.com.retrofittest.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -19,7 +19,13 @@ public interface ExchangeRateDao {
     List<ExchangeRate> getAll();
 
     @Query("SELECT * FROM exchange_rate where to_currency==:toCurrency")
-    ExchangeRate findRateByToCurrency(String toCurrency);
+    List<ExchangeRate> findRateByToCurrency(String toCurrency);
+
+    @Query("SELECT * FROM exchange_rate where from_currency==:fromCurrency")
+    List<ExchangeRate> findRateByFromCurrency(String fromCurrency);
+
+    @Query("SELECT * FROM exchange_rate where from_currency==:fromCurrency AND to_currency==:toCurrency")
+    ExchangeRate findRateByFromAndToCurrency(String fromCurrency, String toCurrency);
 
     @Query("SELECT COUNT(*) from exchange_rate")
     int countCountries();

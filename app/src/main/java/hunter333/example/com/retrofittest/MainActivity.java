@@ -2,40 +2,42 @@ package hunter333.example.com.retrofittest;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.Spinner;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import hunter333.example.com.retrofittest.daos.ExchangeRateDao;
 import hunter333.example.com.retrofittest.databaseHolders.AppDatabase;
 import hunter333.example.com.retrofittest.entities.ExchangeRate;
+import hunter333.example.com.retrofittest.helper.DateFormatter;
 import hunter333.example.com.retrofittest.utils.DatabaseInitializer;
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText inputTV;
-    private EditText outputTV;
+    private EditText inputTextView;
+    private EditText outputTextView;
+    private Spinner inputCurrencySpinner;
+    private Spinner outputCurrencySpinner;
+
+    private ExchangeRates rates = new ExchangeRates();
+
+    private ExchangeRatesClient client = ServiceGenerator.createService(ExchangeRatesClient.class);
 
     public void Calculate(View view) {
+        getExchangeRates();
         double inputSum;
         try {
-            inputSum = Double.parseDouble(inputTV.getText().toString());
+            inputSum = Double.parseDouble(inputTextView.getText().toString());
         } catch (Exception e) {
-            Log.e("Input is empty", inputTV.getText().toString());
+            Log.e("Input is empty", inputTextView.getText().toString());
             inputSum = 0;
         }
         double rate;
@@ -47,12 +49,12 @@ public class MainActivity extends AppCompatActivity {
             result = "No exchange rate data!";
         }
 
-        outputTV.setText(result);
+        outputTextView.setText(result);
     }
 
     public void clearInput(View view) {
-        inputTV.getText().clear();
-        outputTV.getText().clear();
+        inputTextView.getText().clear();
+        outputTextView.getText().clear();
     }
 
     public void closeApp(View view) {
@@ -60,19 +62,17 @@ public class MainActivity extends AppCompatActivity {
         System.exit(0);
     }
 
-    private ExchangeRates rates = new ExchangeRates();
-
-    ExchangeRatesClient client = ServiceGenerator.createService(ExchangeRatesClient.class);
-
-    Call<ExchangeRatesResponse> call = client.exchangeRatesForCountry("BGN");
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getExchangeRatesCall();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        inputTV = (EditText) findViewById(R.id.input_text_view);
-        outputTV = (EditText) findViewById(R.id.output_text_view);
+        inputTextView = (EditText) findViewById(R.id.input_text_view);
+        outputTextView = (EditText) findViewById(R.id.output_text_view);
+
+        inputCurrencySpinner = (Spinner) findViewById(R.id.input_currency_spinner);
+        outputCurrencySpinner = (Spinner) findViewById(R.id.output_currency_spinner);
+        loadCurrencyNames(inputCurrencySpinner);
+        loadCurrencyNames(outputCurrencySpinner);
     }
 
     @Override
@@ -81,7 +81,16 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    private void getExchangeRatesCall() {
+    private void getExchangeRates() {
+        String fromCurrency = ((CountryCodeListEnum) inputCurrencySpinner.getSelectedItem()).getCURRENCY_SHORT_NAME();
+        String toCurrency = ((CountryCodeListEnum) outputCurrencySpinner.getSelectedItem()).getCURRENCY_SHORT_NAME();
+        List<ExchangeRate> exchangeRateList = DatabaseInitializer.getRateByFromCurrency(AppDatabase.getAppDatabase(getApplicationContext()), fromCurrency);
+
+        getExchangeRatesCall(fromCurrency);
+    }
+
+    private void getExchangeRatesCall(final String inputCurrency) {
+        Call<ExchangeRatesResponse> call = client.exchangeRatesForCountry(inputCurrency);
         call.enqueue(new Callback<ExchangeRatesResponse>() {
             @Override
             public void onResponse(Call<ExchangeRatesResponse> call, Response<ExchangeRatesResponse> response) {
@@ -90,13 +99,13 @@ public class MainActivity extends AppCompatActivity {
                     rates.setExchangeRates(response.body().getRates());
                     Log.d("Request", "success");
                     for (Map.Entry<String, Double> rate : rates.getExchangeRates().entrySet()) {
-                        ExchangeRate exchangeRate = DatabaseInitializer.getRateByToCurrency(AppDatabase.getAppDatabase(getApplicationContext()), rate.getKey());
+                        ExchangeRate exchangeRate = DatabaseInitializer.getRateByFromAndToCurrency(AppDatabase.getAppDatabase(getApplicationContext()), inputCurrency, rate.getKey());
                         if (exchangeRate != null) {
                             exchangeRate.setExchangeRateCoefficient(rate.getValue());
                             DatabaseInitializer.updateExchangeRate(AppDatabase.getAppDatabase(getApplicationContext()), exchangeRate);
                             Log.d("RATE_UPDATE", exchangeRate.toString());
                         } else {
-                            exchangeRate = new ExchangeRate("BGN", rate.getKey(),new Date().toString(),rate.getValue());
+                            exchangeRate = new ExchangeRate(inputCurrency, rate.getKey(), new DateFormatter(new Date()).getDateString(), rate.getValue());
                             DatabaseInitializer.populateAsync(AppDatabase.getAppDatabase(getApplicationContext()), exchangeRate);
                         }
                     }
@@ -108,5 +117,9 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("Request", "error");
             }
         });
+    }
+
+    private void loadCurrencyNames(Spinner spinner) {
+        spinner.setAdapter(new ArrayAdapter<CountryCodeListEnum>(this, android.R.layout.simple_list_item_1, CountryCodeListEnum.values()));
     }
 }

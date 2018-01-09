@@ -11,16 +11,34 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Input sum in HUF"
-        android:textAlignment="center"
+        android:text="Input currency:"
         android:textColor="@android:color/black"
         android:textSize="20sp" />
+
+    <Spinner
+        android:id="@+id/input_currency_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </Spinner>
 
     <EditText
         android:id="@+id/input_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Output currency:"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <Spinner
+        android:id="@+id/output_currency_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </Spinner>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,14 +61,6 @@
             android:text="Clear"
             android:onClick="clearInput"/>
     </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Result sum in BGN"
-        android:textAlignment="center"
-        android:textColor="@android:color/black"
-        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/output_text_view"
